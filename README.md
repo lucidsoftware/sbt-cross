@@ -19,7 +19,7 @@ Requires SBT 0.13. (Tested with 0.13.7.)
 In project/plugins.sbt, add
 
 ```scala
-resolvers += "Sonatype release repository" at "https://oss.sonatype.org/content/repositories/releases/"
+resolvers += Resolver.sonatypeRepo("releases")
 
 addSbtPlugin("com.lucidchart" % "sbt-cross" % "2.0-SNAPSHOT")
 ```
