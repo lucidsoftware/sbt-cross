@@ -1,3 +1,65 @@
 #sbt-cross
 
 A better solution for building multiple Scala versions (cross compiling) in SBT.
+
+---
+
+## Purpose
+
+The results of Scala compilation are not always compatibleScala versions, i.e. binary incompatibility. SBT has some built-in features to make working with Scala projects less painful, including `crossScalaVersions`.
+
+However, cross compiling an SBT project with `crossScalaVersions` is less than ideal:
+
+1. Performance - each Scala version is handled sequentially (not in parallel)
+1. Subprojects - Sharing a (classpath) subproject for two versions is tricky
+1. Aggregation - Aggregation doesn't take into account `crossScalaVersions` of subprojects
+
+## Install
+
+Requires SBT 0.13. (Tested with 0.13.7.)
+
+In project/plugins.sbt, add
+
+```scala
+resolvers += "Sonatype release repository" at "https://oss.sonatype.org/content/repositories/releases/"
+
+addSbtPlugin("com.lucidchart" % "sbt-cross" % "1.0-SNAPSHOT")
+```
+
+If you use Build.scala, you'll need to import `com.lucidchart.sbtcross.SbtCrossImport._`.
+
+## Example
+
+Suppose there is a project `foo` that uses Scala 2.11, a project `bar` that uses Scala 2.10, and they depend on a project `common` that compiles with Scala 2.10 and 2.11.
+
+You can do this with sbt-cross like so:
+
+```scala
+lazy val foo = (project in file("foo")).dependsOn(common_2_10)
+  .settings(scalaVersion := "2.10.4")
+
+lazy val bar = (project in file("bar")).dependsOn(common_2_11)
+  .settings(scalaVersion := "2.11.5")
+
+lazy val common = (project in file("common")).cross
+
+lazy val common_2_10 = common("2.10.4")
+
+lazy val common_2_11 = common("2.11.5")
+```
+
+This defines four projects: `foo`, `bar`, `common-2_10`, and `common-2_11`.
+
+SBT will concurrently compile the right ones in the right order.
+
+* `sbt foo/compile` will compile `common-2_10`  then `foo`.
+
+* `sbt bar/compile` will compile `common-2_11`  then `bar`.
+
+* `sbt compile` will compile `common-2_10` then `foo` and, *in parallel*, `common-2_11` then `bar`
+
+See [examples](examples) for more.
+
+## Contributions
+
+We welcome issues, questions, and contributions on our GitHub project ([https://github.com/lucidsoftware/sbt-cross](github.com/lucidsoftware/sbt-cross)).
