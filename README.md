@@ -2,17 +2,15 @@
 
 A better solution for building multiple Scala versions (cross compiling) in SBT.
 
----
-
 ## Purpose
 
-The results of Scala compilation are not always compatibleScala versions, i.e. binary incompatibility. SBT has some built-in features to make working with Scala projects less painful, including `crossScalaVersions`.
+The results of Scala compilation are not always compatible across Scala versions, i.e. binary incompatibility. SBT has some built-in features to make working with Scala projects less painful, including `crossScalaVersions`.
 
 However, cross compiling an SBT project with `crossScalaVersions` is less than ideal:
 
-1. Performance - each Scala version is handled sequentially (not in parallel)
-1. Subprojects - Sharing a (classpath) subproject for two versions is tricky
-1. Aggregation - Aggregation doesn't take into account `crossScalaVersions` of subprojects
+1. Performance - Each Scala version is handled sequentially (not in parallel).
+1. Subprojects - Sharing a (classpath) subproject for two versions is tricky.
+1. Aggregation - Aggregation doesn't take into account `crossScalaVersions` of subprojects.
 
 ## Install
 
