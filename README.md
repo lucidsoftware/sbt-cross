@@ -61,3 +61,6 @@ See [examples](examples) for more.
 ## Contributions
 
 We welcome issues, questions, and contributions on our GitHub project ([https://github.com/lucidsoftware/sbt-cross](github.com/lucidsoftware/sbt-cross)).
+
+Each major version has a branch. Development for the next major version is on `master`. If a change is needed for an
+existing major version, it is cherry-picked  to that branch.
