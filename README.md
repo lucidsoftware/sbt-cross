@@ -28,7 +28,7 @@ If you use Build.scala, you'll need to import `com.lucidchart.sbtcross.SbtCrossI
 
 ## Example
 
-Suppose there is a project `foo` that uses Scala 2.11, a project `bar` that uses Scala 2.10, and they depend on a project `common` that compiles with Scala 2.10 and 2.11.
+Suppose there is a project `foo` that uses Scala 2.10, a project `bar` that uses Scala 2.11, and they depend on a project `common` that compiles with Scala 2.10 and 2.11.
 
 You can do this with sbt-cross like so:
 
