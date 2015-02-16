@@ -21,7 +21,7 @@ In project/plugins.sbt, add
 ```scala
 resolvers += "Sonatype release repository" at "https://oss.sonatype.org/content/repositories/releases/"
 
-addSbtPlugin("com.lucidchart" % "sbt-cross" % "1.0-SNAPSHOT")
+addSbtPlugin("com.lucidchart" % "sbt-cross" % "1.0")
 ```
 
 If you use Build.scala, you'll need to import `com.lucidchart.sbtcross.SbtCrossImport._`.
