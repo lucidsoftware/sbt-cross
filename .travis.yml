@@ -1,0 +1,4 @@
+language: scala
+script:
+  - cd sbt-cross
+  - sbt -no-colors check-format test
