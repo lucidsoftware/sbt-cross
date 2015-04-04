@@ -4,7 +4,7 @@ import sbt._
 import sbt.Keys._
 import sbt.cross.CrossVersionUtil
 
-class CrossProject(project: Project, dependencies: Seq[CrossProject] = Seq()) {
+class CrossProject(project: Project, dependencies: Seq[CrossProjectModuleId] = Seq()) {
 
   def aggregate(parts: AggregateArgument*): Project = {
     val projects = parts.map {
@@ -26,7 +26,7 @@ class CrossProject(project: Project, dependencies: Seq[CrossProject] = Seq()) {
         }
       )
       .dependsOn(
-        dependencies.map(_.ref(version): ClasspathDep[ProjectReference]): _*
+        dependencies.map(_(version)): _*
       )
   }
 
@@ -40,7 +40,7 @@ class CrossProject(project: Project, dependencies: Seq[CrossProject] = Seq()) {
     base / binaryVersion
   }
 
-  def dependsOn(crossProjects: CrossProject*): CrossProject =
+  def dependsOn(crossProjects: CrossProjectModuleId*): CrossProject =
     new CrossProject(project, dependencies ++ crossProjects)
 
   private def idForVersion(version: String) = {
@@ -48,7 +48,11 @@ class CrossProject(project: Project, dependencies: Seq[CrossProject] = Seq()) {
     s"${project.id}-${binaryVersion.replace(".", "_")}"
   }
 
-  private def ref(version: String): ProjectReference =
+  implicit def moduleId: CrossProjectModuleId = CrossProjectModuleId(this)
+
+  def ref(version: String): ProjectReference =
     Project(idForVersion(version), baseForVersion(version))
+
+  def %(configurations: String) = CrossProjectModuleId(this, Some(configurations))
 
 }
