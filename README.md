@@ -58,6 +58,23 @@ SBT will concurrently compile the right ones in the right order.
 
 See [examples](examples) for more.
 
+### Alternative syntax
+
+The previous example can be written more succinctly as
+
+```scala
+lazy val foo = (project in file("foo")).dependsOn(common_2_10)
+  .settings(scalaVersion := "2.10.4")
+
+lazy val bar = (project in file("bar")).dependsOn(common_2_11)
+  .settings(scalaVersion := "2.11.5")
+
+lazy val (common_2_10, common_2_11) = Project("common", file("common")).cross
+  .forVersions("2.10.4", "2.11.5")
+```
+
+though that only works in `.scala` files, or in `.sbt` files for SBT versions prior to 0.13.7.
+
 ## Contributions
 
 We welcome issues, questions, and contributions on our GitHub project ([https://github.com/lucidsoftware/sbt-cross](github.com/lucidsoftware/sbt-cross)).

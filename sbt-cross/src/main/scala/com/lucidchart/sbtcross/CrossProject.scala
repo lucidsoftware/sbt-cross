@@ -30,6 +30,23 @@ class CrossProject(project: Project, dependencies: Seq[CrossProjectModuleId] = S
       )
   }
 
+  def forVersions(v0: String) = Tuple1(apply(v0))
+
+  def forVersions(v0: String, v1: String): (Project, Project) = (apply(v0), apply(v1))
+
+  def forVersions(v0: String, v1: String, v2: String) = (apply(v0), apply(v1), apply(v2))
+
+  def forVersions(v0: String, v1: String, v2: String, v3: String) = (apply(v0), apply(v1), apply(v2), apply(v3))
+
+  def forVersions(v0: String, v1: String, v2: String, v3: String, v4: String) =
+    (apply(v0), apply(v1), apply(v2), apply(v3), apply(v4))
+
+  def forVersions(v0: String, v1: String, v2: String, v3: String, v4: String, v5: String) =
+    (apply(v0), apply(v1), apply(v2), apply(v3), apply(v4), apply(v5))
+
+  def forVersions(v0: String, v1: String, v2: String, v3: String, v4: String, v5: String, v6: String) =
+    (apply(v0), apply(v1), apply(v2), apply(v3), apply(v4), apply(v5), apply(v6))
+
   private def base = project.base / ".cross"
 
   /**
