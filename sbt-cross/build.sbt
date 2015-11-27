@@ -57,4 +57,4 @@ sbtPlugin := true
 
 scalacOptions ++= Seq("-deprecation", "-language")
 
-version := "1.1"
+version := "1.2-SNAPSHOT"
