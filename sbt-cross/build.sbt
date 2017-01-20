@@ -26,35 +26,29 @@ credentials += Credentials(
   System.getenv("SONATYPE_PASSWORD")
 )
 
+developers += Developer("lucidsoftware", "Lucid Software", "github@lucidchart.com", url("https://www.golucid.co/"))
+
+description := "A better solution for cross compiling Scala versions in SBT."
+
+homepage := Some(url("https://github.com/lucidsoftware/sbt-cross"))
+
+licenses += "Apache 2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")
+
 name := "sbt-cross"
 
 organization := "com.lucidchart"
 
-pomExtra := {
-  <developers>
-    <developer>
-      <name>Lucid Software</name>
-      <email>github@lucidchart.com</email>
-      <organization>Lucid Software, Inc.</organization>
-      <organizationUrl>https://www.golucid.co/</organizationUrl>
-    </developer>
-  </developers>
-  <licenses>
-    <license>
-      <name>Apache 2</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-    </license>
-  </licenses>
-  <scm>
-    <connection>scm:git:github.com/lucidsoftware/sbt-cross</connection>
-    <developerConnection>scm:git:git@github.com:lucidsoftware/sbt-cross</developerConnection>
-    <url>https://github.com/lucidsoftware/sbt-cross</url>
-  </scm>
-  <url>https://github.com/lucidsoftware/sbt-cross</url>
-}
+organizationHomepage := Some(url("https://www.golucido.co/"))
+
+organizationName := "Lucid Software"
 
 sbtPlugin := true
 
 scalacOptions ++= Seq("-deprecation", "-language")
 
+scmInfo := Some(ScmInfo(url("https://github.com/lucidsoftware/sbt-cross"), "scm:git:git@github.com:lucidsoftware/sbt-cross", None))
+
+startYear := Some(2017)
+
 version := "2.0-SNAPSHOT"
+
