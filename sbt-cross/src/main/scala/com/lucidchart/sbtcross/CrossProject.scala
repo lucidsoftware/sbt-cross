@@ -25,10 +25,18 @@ class CrossProject(project: Project, dependencies: Seq[CrossProjectModuleId] = S
           oldTarget.getParentFile / s"${oldTarget.name}-$binaryVersion"
         }
       )
+      .addSbtFiles(projectsSbtFiles: _*)
       .dependsOn(
         dependencies.map(_(version)): _*
       )
   }
+
+  private lazy val projectsSbtFiles: Seq[File] =
+    project
+      .base
+      .getAbsoluteFile
+      .*(ExistsFileFilter && NameFilter.fnToNameFilter(_.endsWith(".sbt")))
+      .get
 
   def forVersions(v0: String) = Tuple1(apply(v0))
 
