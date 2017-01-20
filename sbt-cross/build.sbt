@@ -24,7 +24,9 @@ credentials += Credentials(
   sys.env.getOrElse("SONATYPE_PASSWORD", "")
 )
 
-developers += Developer("lucidsoftware", "Lucid Software", "github@lucidchart.com", url("https://www.golucid.co/"))
+developers := List(
+  Developer("lucidsoftware", "Lucid Software", "github@lucidchart.com", url("https://www.golucid.co/"))
+)
 
 description := "A better solution for cross compiling Scala versions in SBT."
 
@@ -51,4 +53,3 @@ scmInfo := Some(ScmInfo(url("https://github.com/lucidsoftware/sbt-cross"), "scm:
 startYear := Some(2017)
 
 version := "2.0-SNAPSHOT"
-

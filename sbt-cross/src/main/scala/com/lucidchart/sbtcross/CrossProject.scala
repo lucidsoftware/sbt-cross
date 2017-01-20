@@ -15,9 +15,17 @@ class CrossProject(project: Project, dependencies: Seq[CrossProjectModuleId] = S
   }
 
   def apply(version: String) = {
-    project.copy(id = idForVersion(version), base = baseForVersion(version))
+    val basedProject = if (project.base == file(".")) {
+      // https://github.com/sbt/sbt/issues/1861
+      project.copy(base = baseForVersion(version)).settings(baseDirectory := project.base.getAbsoluteFile)
+    } else {
+      project
+    }
+    basedProject.copy(id = idForVersion(version))
       .settings(
         baseDirectory := project.base.getAbsoluteFile,
+        crossTarget := target.value,
+        name := project.id,
         scalaVersion := version,
         target := {
           val oldTarget = target.value
@@ -49,9 +57,6 @@ class CrossProject(project: Project, dependencies: Seq[CrossProjectModuleId] = S
 
   private def base = project.base / ".cross"
 
-  /**
-   * Need unique base due to https://github.com/sbt/sbt/issues/1861
-   */
   private def baseForVersion(version: String) = {
     val binaryVersion = CrossVersionUtil.binaryScalaVersion(version)
     base / binaryVersion
