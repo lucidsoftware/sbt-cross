@@ -42,7 +42,7 @@ organizationHomepage := Some(url("https://www.golucido.co/"))
 
 organizationName := "Lucid Software"
 
-PgpKeys.pgpPassphrase := Some(Array.emptyCharArray)
+PgpKeys.pgpPassphrase in Global := Some(Array.emptyCharArray)
 
 sbtPlugin := true
 
