@@ -1,7 +1,5 @@
 scalariformSettings
 
-sonatypeSettings
-
 val checkFormat = TaskKey[Unit]("check-format")
 
 checkFormat := {
@@ -22,8 +20,8 @@ checkFormat := {
 credentials += Credentials(
   "Sonatype Nexus Repository Manager",
   "oss.sonatype.org",
-  System.getenv("SONATYPE_USERNAME"),
-  System.getenv("SONATYPE_PASSWORD")
+  sys.env.getOrElse("SONATYPE_USERNAME", ""),
+  sys.env.getOrElse("SONATYPE_PASSWORD", "")
 )
 
 developers += Developer("lucidsoftware", "Lucid Software", "github@lucidchart.com", url("https://www.golucid.co/"))
@@ -41,6 +39,8 @@ organization := "com.lucidchart"
 organizationHomepage := Some(url("https://www.golucido.co/"))
 
 organizationName := "Lucid Software"
+
+PgpKeys.pgpPassphrase := Some(Array.emptyCharArray)
 
 sbtPlugin := true
 
