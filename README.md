@@ -19,7 +19,7 @@ Requires SBT 0.13+.
 In project/plugins.sbt, add
 
 ```scala
-addSbtPlugin("com.lucidchart" % "sbt-cross" % "2.0")
+addSbtPlugin("com.lucidchart" % "sbt-cross" % "3.0")
 ```
 
 ## Example
