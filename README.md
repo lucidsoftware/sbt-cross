@@ -14,17 +14,13 @@ However, cross compiling an SBT project with `crossScalaVersions` is less than i
 
 ## Install
 
-Requires SBT 0.13. (Tested with 0.13.7.)
+Requires SBT 0.13+.
 
 In project/plugins.sbt, add
 
 ```scala
-resolvers += Resolver.sonatypeRepo("releases")
-
-addSbtPlugin("com.lucidchart" % "sbt-cross" % "2.0-SNAPSHOT")
+addSbtPlugin("com.lucidchart" % "sbt-cross" % "2.0")
 ```
-
-If you use Build.scala, you'll need to import `com.lucidchart.sbtcross.SbtCrossImport._`.
 
 ## Example
 
@@ -60,7 +56,7 @@ See [examples](examples) for more.
 
 ### Alternative syntax
 
-The previous example can be written more succinctly as
+In SBT versions prior to 0.13.7, the previous example can be written more succinctly as
 
 ```scala
 lazy val foo = (project in file("foo")).dependsOn(common_2_10)
@@ -73,7 +69,7 @@ lazy val (common_2_10, common_2_11) = Project("common", file("common")).cross
   .forVersions("2.10.4", "2.11.5")
 ```
 
-though that only works in `.scala` files, or in `.sbt` files for SBT versions prior to 0.13.7.
+(This doesn't work in recent SBT versions due to https://github.com/sbt/sbt/issues/2290)
 
 ## Contributions
 
@@ -82,4 +78,4 @@ We welcome issues, questions, and contributions on our GitHub project ([https://
 [![Build Status](https://travis-ci.org/lucidsoftware/sbt-cross.svg?branch=master)](https://travis-ci.org/lucidsoftware/sbt-cross)
 
 Each major version has a branch. Development for the next major version is on `master`. If a change is needed for an
-existing major version, it is cherry-picked  to that branch.
+existing major version, it is cherry-picked to that branch.
