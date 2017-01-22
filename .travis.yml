@@ -1,7 +1,10 @@
 after_success: |
-  if [ "$TRAVIS_PULL_REQUEST" == false ] && [ "$TRAVIS_BRANCH" == master ]; then
+  if ! [ -z "$TRAVIS_TAG" ]; then
       echo "$PGP_SECRET" | base64 --decode | gpg --import
       (cd sbt-cross && exec sbt publishSigned sonatypeReleaseAll)
+  elif [ "$TRAVIS_PULL_REQUEST" == false ] && [ "$TRAVIS_BRANCH" == master ]; then
+      echo "$PGP_SECRET" | base64 --decode | gpg --import
+      (cd sbt-cross && exec sbt publishSigned)
   fi
 cache:
   directories:
@@ -19,4 +22,6 @@ git:
   depth: 1
 jdk: openjdk7
 language: scala
-script: (cd sbt-cross && exec sbt 'all checkFormat package test')
+script:
+  - '[ -z "$TRAVIS_TAG" ] || export SBT_OPTS=-Drelease=true'
+  - (cd sbt-cross && exec sbt 'all checkFormat package test')

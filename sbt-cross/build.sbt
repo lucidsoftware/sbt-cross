@@ -52,4 +52,4 @@ scmInfo := Some(ScmInfo(url("https://github.com/lucidsoftware/sbt-cross"), "scm:
 
 startYear := Some(2017)
 
-version := "2.0-SNAPSHOT"
+version := IO.read(file("version")).trim + (if (sys.props.get("release").exists(_ == "true")) "" else "-SNAPSHOT")
