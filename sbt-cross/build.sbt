@@ -40,4 +40,8 @@ sbtPlugin := true
 
 scalacOptions ++= Seq("-deprecation", "-language")
 
-version := "1.2-SNAPSHOT"
+scmInfo := Some(ScmInfo(url("https://github.com/lucidsoftware/sbt-cross"), "scm:git:git@github.com:lucidsoftware/sbt-cross", None))
+
+startYear := Some(2017)
+
+version := IO.read(file("version")).trim + (if (sys.props.get("release").exists(_ == "true")) "" else "-SNAPSHOT")
