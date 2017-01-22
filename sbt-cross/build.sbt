@@ -22,9 +22,19 @@ checkFormat := {
 credentials += Credentials(
   "Sonatype Nexus Repository Manager",
   "oss.sonatype.org",
-  System.getenv("SONATYPE_USERNAME"),
-  System.getenv("SONATYPE_PASSWORD")
+  sys.env.getOrElse("SONATYPE_USERNAME", ""),
+  sys.env.getOrElse("SONATYPE_PASSWORD", "")
 )
+
+developers := List(
+  Developer("lucidsoftware", "Lucid Software", "github@lucidchart.com", url("https://www.golucid.co/"))
+)
+
+description := "A better solution for cross compiling Scala versions in SBT."
+
+homepage := Some(url("https://github.com/lucidsoftware/sbt-cross"))
+
+licenses += "Apache 2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")
 
 name := "sbt-cross"
 
