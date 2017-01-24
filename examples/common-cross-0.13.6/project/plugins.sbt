@@ -1,3 +1,1 @@
-addSbtPlugin("com.lucidchart" % "sbt-cross" % "2.0-SNAPSHOT")
-
-resolvers += Resolver.sonatypeRepo("releases")
+addSbtPlugin("com.lucidchart" % "sbt-cross" % "3.0-SNAPSHOT")

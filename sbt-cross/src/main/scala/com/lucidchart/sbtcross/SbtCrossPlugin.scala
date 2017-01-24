@@ -1,9 +1,12 @@
 package com.lucidchart.sbtcross
 
 import sbt._
+import scala.language.implicitConversions
 
 object SbtCrossPlugin extends AutoPlugin {
 
-  val autoImport = SbtCrossImport
+  object autoImport {
+    implicit def toCrossable(project: Project): BaseProject = new BaseProject(project)
+  }
 
 }

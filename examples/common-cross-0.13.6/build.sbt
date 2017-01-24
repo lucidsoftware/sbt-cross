@@ -1,5 +1,3 @@
-lazy val all = (project in file(".")).aggregate(foo, bar)
-
 lazy val foo = (project in file("foo")).dependsOn(common_2_10).settings(
   scalaVersion := "2.10.4"
 )

@@ -71,6 +71,11 @@ lazy val (common_2_10, common_2_11) = Project("common", file("common")).cross
 
 (This doesn't work in recent SBT versions due to https://github.com/sbt/sbt/issues/2290)
 
+### Additional crossing
+
+You can cross by more than just Scala versions, and even chaining cross versions. There is currenly no documentation for
+this, but `LibraryVersionAxis` is an example.
+
 ## Contributions
 
 We welcome issues, questions, and contributions on our GitHub project ([https://github.com/lucidsoftware/sbt-cross](github.com/lucidsoftware/sbt-cross)).

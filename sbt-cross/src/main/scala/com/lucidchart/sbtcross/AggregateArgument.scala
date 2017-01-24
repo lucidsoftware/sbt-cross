@@ -1,9 +1,18 @@
 package com.lucidchart.sbtcross
 
+import scala.language.implicitConversions
 import sbt._
 
 sealed trait AggregateArgument
 
-case class ProjectAggregateArgument(project: ProjectReference) extends AggregateArgument
+final case class ProjectAggregateArgument(project: Project) extends AggregateArgument
 
-case class VersionAggregateArgument(version: String) extends AggregateArgument
+object ProjectAggregateArgument {
+  implicit def toArgument(project: Project): ProjectAggregateArgument = apply(project)
+}
+
+final case class VersionAggregateArgument(version: String) extends AggregateArgument
+
+object VersionAggregateArgument {
+  implicit def toArgument(version: String): VersionAggregateArgument = apply(version)
+}

@@ -1,10 +1,7 @@
 after_success: |
-  if ! [ -z "$TRAVIS_TAG" ]; then
+  if [ "$TRAVIS_PULL_REQUEST" == false ] && [ "$TRAVIS_BRANCH" == master ]; then
       echo "$PGP_SECRET" | base64 --decode | gpg --import
       (cd sbt-cross && exec sbt publishSigned sonatypeReleaseAll)
-  elif [ "$TRAVIS_PULL_REQUEST" == false ] && [ "$TRAVIS_BRANCH" == master ]; then
-      echo "$PGP_SECRET" | base64 --decode | gpg --import
-      (cd sbt-cross && exec sbt publishSigned)
   fi
 cache:
   directories:

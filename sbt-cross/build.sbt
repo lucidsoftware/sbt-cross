@@ -32,6 +32,10 @@ description := "A better solution for cross compiling Scala versions in SBT."
 
 homepage := Some(url("https://github.com/lucidsoftware/sbt-cross"))
 
+libraryDependencies ++= Seq(
+  "org.apache.commons" % "commons-lang3" % "3.5"
+)
+
 licenses += "Apache 2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")
 
 name := "sbt-cross"
@@ -52,4 +56,4 @@ scmInfo := Some(ScmInfo(url("https://github.com/lucidsoftware/sbt-cross"), "scm:
 
 startYear := Some(2017)
 
-version := IO.read(file("version")).trim + (if (sys.props.get("release").exists(_ == "true")) "" else "-SNAPSHOT")
+version := IO.read(file("version")).trim
