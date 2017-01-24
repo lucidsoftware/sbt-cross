@@ -14,7 +14,6 @@ class LibraryVersionAxis(protected[this] val name: String, settingKey: SettingKe
     val newDelegate = super.apply(delegate, version)
     newDelegate.withProject(newDelegate.project.settings(
       extraDirectories ++= (sourceDirectory.value +: extraDirectories.value).map(_ / s"$name-${major(version)}"),
-      sourceDirectory in Compile := sourceDirectory.value / "shared" / "main",
       settingKey := version,
       Keys.version := {
         if (Keys.version.value.endsWith("-SNAPSHOT")) {
@@ -56,9 +55,14 @@ object LibraryVersionPlugin extends AutoPlugin {
     extraDirectories := Nil
   )
 
-  override val projectSettings = Seq(
-    unmanagedResourceDirectories in Compile ++= extraDirectories.value.map(_ / "main" / "resources"),
-    unmanagedSourceDirectories in Compile ++= extraDirectories.value.map(_ / "main" / "java"),
-    unmanagedSourceDirectories in Compile ++= extraDirectories.value.map(_ / "main" / "scala")
-  )
+  override val projectSettings = Seq(Compile, Test).flatMap { config =>
+    Seq(
+      unmanagedSourceDirectories in config ++= extraDirectories.value.flatMap { directory =>
+        (unmanagedSourceDirectories in config).value.flatMap(Path.rebase(sourceDirectory.value, directory)(_))
+      },
+      unmanagedResourceDirectories in config ++= extraDirectories.value.flatMap { directory =>
+        (unmanagedResourceDirectories in config).value.flatMap(Path.rebase(sourceDirectory.value, directory)(_))
+      }
+    )
+  }
 }
