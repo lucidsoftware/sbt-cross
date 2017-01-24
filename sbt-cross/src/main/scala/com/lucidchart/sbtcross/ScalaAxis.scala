@@ -11,7 +11,6 @@ class ScalaAxis extends DefaultAxis {
     val newDelegate = super.apply(delegate, version)
     newDelegate.withProject(newDelegate.project.settings(
       crossTarget := target.value,
-      Keys.name := Keys.name.value.dropRight(major(version).size + 1),
       scalaVersion := version
     ))
   }

@@ -15,7 +15,6 @@ class LibraryVersionAxis(protected[this] val name: String, settingKey: SettingKe
     newDelegate.withProject(newDelegate.project.settings(
       extraDirectories ++= (sourceDirectory.value +: extraDirectories.value).map(_ / s"$name-${major(version)}"),
       sourceDirectory in Compile := sourceDirectory.value / "shared" / "main",
-      Keys.name := Keys.name.value.dropRight(major(version).size + 1),
       settingKey := version,
       Keys.version := {
         if (Keys.version.value.endsWith("-SNAPSHOT")) {
