@@ -23,7 +23,13 @@ In project/plugins.sbt, add
 addSbtPlugin("com.lucidchart" % "sbt-cross" % "3.0")
 ```
 
-For the latest development version, use `"master-SNAPSHOT"`.
+For the latest development version,
+
+```scala
+resolvers += Resolver.sonatypeRepo("snapshots")
+
+addSbtPlugin("com.lucidchart" % "sbt-cross" % "master-SNAPSHOT")
+```
 
 ## Example
 
