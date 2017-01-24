@@ -4,14 +4,24 @@ A better solution for building multiple Scala versions (cross compiling) in SBT.
 
 ## Purpose
 
-The results of Scala compilation are not always compatible across Scala versions, i.e. binary incompatibility. SBT has
-some built-in features to make working with Scala projects less painful, including `crossScalaVersions`.
+Since compilation outputs are not binary compatible across all versions of Scala, SBT has functionality to make this
+less painful. One of these is `crossScalaVersions`.
 
-However, cross compiling an SBT project with `crossScalaVersions` is less than ideal:
+However, `crossScalaVersions` is problematic:
 
 1. Performance - Each Scala version is handled sequentially (not in parallel).
-1. Subprojects - Sharing a (classpath) subproject for two versions is tricky.
-1. Aggregation - Aggregation doesn't take into account `crossScalaVersions` of subprojects.
+1. Subprojects - Project classpath dependencies can be tricky.
+1. Aggregation - Aggregation doesn't take into account `crossScalaVersions` of subprojects, hence
+  [sbt-doge](https://github.com/sbt/sbt-doge).
+1. Cross paths - Very many tasks don't play nicely. E.g. if you use sbt-native-packager and `+debian:package`, you'll
+  build two debs on top of each other.
+1. General funniness - For example, [sbt-sonatype](https://github.com/xerial/sbt-sonatype#using-with-sbt-release-plugin) requires
+  extra wrangling to work with `crossScalaVersions`.
+
+Ultimately, `crossScalaVersions` is a hack that tries to reuse projects and tasks by mutating settings.
+
+sbt-cross solves all by simply splitting projects: one for each version fo Scala. Moreover, it
+generalizes this approach to other any cross-compilation-like use.
 
 ## Install
 
@@ -33,53 +43,34 @@ addSbtPlugin("com.lucidchart" % "sbt-cross" % "master-SNAPSHOT")
 
 ## Example
 
-Suppose there is a project `foo` that uses Scala 2.10, a project `bar` that uses Scala 2.11, and they depend on a
-project `common` that compiles with Scala 2.10 and 2.11.
+Suppose there is a project `pipers` that uses Scala 2.11, a project `drummers` that uses Scala 2.12, and they depend on a
+project `common` that compiles with both versions.
 
-You can do this with sbt-cross like so:
+This cannot be done with `crossScalaVersions`, but it can with sbt-cross.
 
 ```scala
-lazy val foo = (project in file("foo")).dependsOn(common_2_10)
-  .settings(scalaVersion := "2.10.4")
+lazy val pipers = project.dependsOn(common_2_10)
+  .settings(scalaVersion := "2.11.8")
 
-lazy val bar = (project in file("bar")).dependsOn(common_2_11)
-  .settings(scalaVersion := "2.11.5")
+lazy val drummers = project.dependsOn(common_2_11)
+  .settings(scalaVersion := "2.12.1")
 
-lazy val common = (project in file("common")).cross
-
-lazy val common_2_10 = common("2.10.4")
-
-lazy val common_2_11 = common("2.11.5")
+lazy val common = project.cross
+lazy val common_2_10 = common("2.11.8")
+lazy val common_2_11 = common("2.12.1")
 ```
 
-This defines four projects: `foo`, `bar`, `common-2_10`, and `common-2_11`.
+This defines four projects: `pipers`, `drummers`, `common-2_11`, and `common-2_12`.
 
 SBT will concurrently compile the right ones in the right order.
 
-* `sbt foo/compile` will compile `common-2_10`  then `foo`.
+* `sbt pipers/compile` will compile `common-2_11`  then `pipers`.
 
-* `sbt bar/compile` will compile `common-2_11`  then `bar`.
+* `sbt drummers/compile` will compile `common-2_12`  then `drummers`.
 
-* `sbt compile` will compile `common-2_10` then `foo` and, *in parallel*, `common-2_11` then `bar`
+* `sbt compile` will compile `common-2_11` then `pipers` and, *in parallel*, `common-2_12` then `drummers`.
 
 See [examples](examples) for more.
-
-### Alternative syntax
-
-In SBT versions prior to 0.13.7, the previous example can be written more succinctly as
-
-```scala
-lazy val foo = (project in file("foo")).dependsOn(common_2_10)
-  .settings(scalaVersion := "2.10.4")
-
-lazy val bar = (project in file("bar")).dependsOn(common_2_11)
-  .settings(scalaVersion := "2.11.5")
-
-lazy val (common_2_10, common_2_11) = Project("common", file("common")).cross
-  .forVersions("2.10.4", "2.11.5")
-```
-
-(This syntax doesn't work in recent SBT versions due to https://github.com/sbt/sbt/issues/2290)
 
 ### Additional crossing
 
