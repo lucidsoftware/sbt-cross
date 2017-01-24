@@ -4,7 +4,8 @@ A better solution for building multiple Scala versions (cross compiling) in SBT.
 
 ## Purpose
 
-The results of Scala compilation are not always compatible across Scala versions, i.e. binary incompatibility. SBT has some built-in features to make working with Scala projects less painful, including `crossScalaVersions`.
+The results of Scala compilation are not always compatible across Scala versions, i.e. binary incompatibility. SBT has
+some built-in features to make working with Scala projects less painful, including `crossScalaVersions`.
 
 However, cross compiling an SBT project with `crossScalaVersions` is less than ideal:
 
@@ -22,9 +23,12 @@ In project/plugins.sbt, add
 addSbtPlugin("com.lucidchart" % "sbt-cross" % "3.0")
 ```
 
+For the latest development version, use `"master-SNAPSHOT"`.
+
 ## Example
 
-Suppose there is a project `foo` that uses Scala 2.10, a project `bar` that uses Scala 2.11, and they depend on a project `common` that compiles with Scala 2.10 and 2.11.
+Suppose there is a project `foo` that uses Scala 2.10, a project `bar` that uses Scala 2.11, and they depend on a
+project `common` that compiles with Scala 2.10 and 2.11.
 
 You can do this with sbt-cross like so:
 
@@ -69,18 +73,16 @@ lazy val (common_2_10, common_2_11) = Project("common", file("common")).cross
   .forVersions("2.10.4", "2.11.5")
 ```
 
-(This doesn't work in recent SBT versions due to https://github.com/sbt/sbt/issues/2290)
+(This syntax doesn't work in recent SBT versions due to https://github.com/sbt/sbt/issues/2290)
 
 ### Additional crossing
 
-You can cross by more than just Scala versions, and even chaining cross versions. There is currenly no documentation for
-this, but `LibraryVersionAxis` is an example.
+You can cross by more than just Scala versions, and even chaining cross versions. There is currently no documentation
+for this, but `LibraryVersionAxis` is an example.
 
 ## Contributions
 
-We welcome issues, questions, and contributions on our GitHub project ([https://github.com/lucidsoftware/sbt-cross](github.com/lucidsoftware/sbt-cross)).
+We welcome issues, questions, and contributions on our GitHub project
+([https://github.com/lucidsoftware/sbt-cross](github.com/lucidsoftware/sbt-cross)).
 
 [![Build Status](https://travis-ci.org/lucidsoftware/sbt-cross.svg?branch=master)](https://travis-ci.org/lucidsoftware/sbt-cross)
-
-Each major version has a branch. Development for the next major version is on `master`. If a change is needed for an
-existing major version, it is cherry-picked to that branch.

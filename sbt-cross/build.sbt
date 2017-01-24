@@ -56,4 +56,4 @@ scmInfo := Some(ScmInfo(url("https://github.com/lucidsoftware/sbt-cross"), "scm:
 
 startYear := Some(2017)
 
-version := sys.props.getOrElse("build.version", "0.0-SNAPSHOT")
+version := sys.props.getOrElse("build.version", "0-SNAPSHOT")
