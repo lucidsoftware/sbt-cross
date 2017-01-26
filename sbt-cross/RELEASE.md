@@ -1,44 +1,50 @@
-# Release process
+# Releases
+
+## Versioning scheme
 
 Versions are `<major>.<minor>`.
 
-The latest major series is `master`.
+* Each major version series has a branch, with a SNAPSHOT version published for the latest.
 
-Other major series are kept on maintenance branches.
+* Each major.minor version has a tag, which triggers publishing a release version.
+
+Commits are typically developed for `master` and then cherry-picked to branches as needed.
 
 ```
-A - B - C - D - E (master: 3.x)
-  \      \
-    C'    E'
- (1: 1.x) (2: 2.x)
+A - B - C - D - E - F - G - H (master)
+  \          \
+   C'         E' - G' - H' (2)
+    \       (2.0) (2.1)
+     D'
+   (1.0, 1)
+
+Published versions:
+  1.0
+  1-SNAPSHOT
+  2.0
+  2.1
+  2-SNAPSHOT
+  master-SNAPSHOT
 ```
 
-## 1. Create and checkout branches
+## Release process
 
-New major series: checkout master, and push a branch of the old major version.
+### 1. Create and checkout branches
+
+New major version: create, checkout, and push a new branch for the major series.
 
 ```sh
-git checkout master
-git push HEAD:<old_major>
+git checkout -b <major> master
+git push -u HEAD
 ```
 
-New version of latest series: checkout master
-
-```sh
-git checkout
-```
-
-New version of maintenance series: checkout series branch
+New minor version: checkout major series branch
 
 ```sh
 git checkout <major>
 ```
 
-## 2. Update documentation
-
-Update all documentation and examples to the new version, commit, and push.
-
-## 3. Tag
+### 2. Tag
 
 Push a tag with the new version.
 
@@ -47,3 +53,7 @@ git push HEAD:refs/tags/<major>.<minor>
 ```
 
 This triggers a release in Github and Sonatype.
+
+### 3. Update documentation
+
+Update documentation and examples on `master` to point to the new version, commit, and push.

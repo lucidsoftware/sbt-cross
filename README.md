@@ -1,7 +1,6 @@
 #sbt-cross
 
 [![Build Status](https://travis-ci.org/lucidsoftware/sbt-cross.svg?branch=master)](https://travis-ci.org/lucidsoftware/sbt-cross)
-
 ![Maven Version](https://img.shields.io/maven-central/v/com.lucidchart/sbt-cross.svg)
 
 A better solution for building multiple Scala versions (cross compiling) in SBT.
