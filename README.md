@@ -50,23 +50,23 @@ project `instruments`, which compiles with both Scala versions.
 This cannot be done with `crossScalaVersions`, but it can with sbt-cross.
 
 ```scala
-lazy val pipers = project.dependsOn(common_2_10).settings(scalaVersion := "2.11.8")
-lazy val drummers = project.dependsOn(common_2_11).settings(scalaVersion := "2.12.1")
+lazy val pipers = project.dependsOn(instruments_2_11).settings(scalaVersion := "2.11.8")
+lazy val drummers = project.dependsOn(instruments_2_12).settings(scalaVersion := "2.12.1")
 
 lazy val instruments = project.cross
-lazy val instruments_2_10 = instruments("2.11.8")
-lazy val instruments_2_11 = instruments("2.12.1")
+lazy val instruments_2_11 = instruments("2.11.8")
+lazy val instruments_2_12 = instruments("2.12.1")
 ```
 
 This defines four projects: `pipers`, `drummers`, `instruments-2_11`, and `instruments-2_12`.
 
 SBT will concurrently compile the right ones in the right order.
 
-* `sbt pipers/compile` will compile `instruments-2_11`  then `pipers`.
+* `sbt pipers/compile` will compile `instruments_2_11`  then `pipers`.
 
-* `sbt drummers/compile` will compile `instruments-2_12`  then `drummers`.
+* `sbt drummers/compile` will compile `instruments_2_12`  then `drummers`.
 
-* `sbt compile` will compile `instruments-2_11` then `pipers` and, *in parallel*, `instruments-2_12` then `drummers`.
+* `sbt compile` will compile `instruments_2_11` then `pipers` and, *in parallel*, `instruments_2_12` then `drummers`.
 
 See [examples](examples) for more.
 
