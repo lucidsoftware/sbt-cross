@@ -50,10 +50,12 @@ PgpKeys.pgpPassphrase in Global := Some(Array.emptyCharArray)
 
 sbtPlugin := true
 
-scalacOptions ++= Seq("-deprecation", "-language")
+scalacOptions ++= Seq("-deprecation")
 
 scmInfo := Some(ScmInfo(url("https://github.com/lucidsoftware/sbt-cross"), "scm:git:git@github.com:lucidsoftware/sbt-cross", None))
 
 startYear := Some(2017)
 
 version := sys.props.getOrElse("build.version", "0-SNAPSHOT")
+
+crossSbtVersions := Seq("0.13.16", "1.0.1")

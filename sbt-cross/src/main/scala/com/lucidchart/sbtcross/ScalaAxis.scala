@@ -1,8 +1,7 @@
 package com.lucidchart.sbtcross
 
-import sbt.Keys
+import com.lucidcharts.sbtcross.SbtCompat._
 import sbt.Keys._
-import sbt.cross.CrossVersionUtil
 
 class ScalaAxis extends DefaultAxis {
   protected[this] val name = "scala"
