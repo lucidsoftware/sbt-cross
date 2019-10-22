@@ -4,7 +4,7 @@ after_success: |
     if [ -z "$TRAVIS_TAG" ]; then
         (cd sbt-cross && exec sbt publishSigned)
     else
-        (cd sbt-cross && exec sbt publishSigned sonatypeRelease)
+        (cd sbt-cross && exec sbt "; publishSigned; sonatypeBundleRelease")
     fi
   fi
 cache:

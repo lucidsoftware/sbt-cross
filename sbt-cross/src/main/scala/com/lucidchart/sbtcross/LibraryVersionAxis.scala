@@ -21,8 +21,7 @@ class LibraryVersionAxis(protected[this] val name: String, settingKey: SettingKe
         } else {
           s"${Keys.version.value}-${major(version)}"
         }
-      }
-    ))
+      }))
   }
 }
 
@@ -40,7 +39,6 @@ object LibraryVersionAxis {
   val extraDirectories = SettingKey[Seq[File]]("extra-directories")
 }
 
-
 object LibraryVersionPlugin extends AutoPlugin {
   object autoImport {
     val extraDirectories = LibraryVersionAxis.extraDirectories
@@ -52,8 +50,7 @@ object LibraryVersionPlugin extends AutoPlugin {
   override val requires = JvmPlugin
 
   override val globalSettings = Seq(
-    extraDirectories := Nil
-  )
+    extraDirectories := Nil)
 
   override val projectSettings = Seq(Compile, Test).flatMap { config =>
     Seq(
@@ -62,7 +59,6 @@ object LibraryVersionPlugin extends AutoPlugin {
       },
       unmanagedResourceDirectories in config ++= extraDirectories.value.flatMap { directory =>
         (unmanagedResourceDirectories in config).value.flatMap(Path.rebase(sourceDirectory.value, directory)(_))
-      }
-    )
+      })
   }
 }

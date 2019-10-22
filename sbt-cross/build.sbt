@@ -1,12 +1,12 @@
-scalariformSettings
+import scala.sys.process._
 
 val checkFormat = TaskKey[Unit]("check-format")
 
 checkFormat := {
-  (ScalariformKeys.format in Compile).value
+  (scalariformFormat in Compile).value
   val directory = baseDirectory.value.absolutePath
   val logger = (streams in Compile).value.log
-  val paths = stringToProcess(s"git diff --name-only $directory").lines
+  val paths = s"git diff --name-only $directory".lineStream_!
   if (paths.nonEmpty) {
     logger.error("The following files are not corrected formatted:")
     paths.foreach { path =>
@@ -46,11 +46,11 @@ organizationHomepage := Some(url("https://www.golucido.co/"))
 
 organizationName := "Lucid Software"
 
-PgpKeys.pgpPassphrase in Global := Some(Array.emptyCharArray)
-
 sbtPlugin := true
 
 scalacOptions ++= Seq("-deprecation")
+
+publishTo := sonatypePublishToBundle.value
 
 scmInfo := Some(ScmInfo(url("https://github.com/lucidsoftware/sbt-cross"), "scm:git:git@github.com:lucidsoftware/sbt-cross", None))
 
@@ -58,4 +58,4 @@ startYear := Some(2017)
 
 version := sys.props.getOrElse("build.version", "0-SNAPSHOT")
 
-crossSbtVersions := Seq("0.13.16", "1.0.1")
+crossSbtVersions := Seq("0.13.18", "1.3.3")

@@ -28,8 +28,7 @@ trait DefaultAxis extends Axis {
       .settings(
         baseDirectory := project.base.getAbsoluteFile,
         originalName := originalName.?.value.getOrElse(project.id),
-        target := target.value / s"$name-${major(version)}"
-      )
+        target := target.value / s"$name-${major(version)}")
     delegate.withProject(newProject)
   }
   def apply(project: LocalProject, version: String) = project.copy(id(project.project, version))
@@ -47,7 +46,6 @@ object DefaultAxisPlugin extends AutoPlugin {
   override val requires = CorePlugin
 
   override val projectSettings = Seq(
-    name := originalName.?.value.getOrElse(name.value)
-  )
+    name := originalName.?.value.getOrElse(name.value))
 
 }
