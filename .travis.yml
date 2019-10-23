@@ -12,12 +12,14 @@ cache:
     - $HOME/.ivy2
     - $HOME/.sbt
 deploy:
-  api_key: $GITHUB_AUTH
+  provider: releases
+  api_key:
+    secure: gtGkk0o5BwJyhdob+0PlL7zQHO1ACpO22cIYQyfoMvpcnTrrAHqa7Pxx7DUHstE0wIWCPrgKnzUbjqCvxpSZ2mrfg9K0CRLVBQv/BC45szXeKvAIwjij8kJY30QQD9G2xoom6vqi5OajS440jEmD0E4VgegQNaYY5HK0OKYizfU=
   file: '*/target/**/*.jar'
   file_glob: true
   on:
     tags: true
-  provider: releases
+    repo: lucidsoftware/sbt-cross
   skip_cleanup: true
 git:
   depth: 1
