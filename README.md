@@ -26,12 +26,12 @@ sbt-cross solves all by simply splitting projects: one for each version of Scala
 
 ## Install
 
-Requires SBT 0.13+.
+Requires SBT 1.3+.
 
 In project/plugins.sbt, add
 
 ```scala
-addSbtPlugin("com.lucidchart" % "sbt-cross" % "3.0")
+addSbtPlugin("com.lucidchart" % "sbt-cross" % "4.0")
 ```
 
 For the latest development version,

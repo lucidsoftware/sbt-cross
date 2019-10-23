@@ -4,7 +4,7 @@ after_success: |
     if [ -z "$TRAVIS_TAG" ]; then
         (cd sbt-cross && exec sbt publishSigned)
     else
-        (cd sbt-cross && exec sbt "; ^publishSigned; sonatypeBundleRelease")
+        (cd sbt-cross && exec sbt "; publishSigned; sonatypeBundleRelease")
     fi
   fi
 cache:
@@ -25,4 +25,4 @@ jdk: openjdk8
 language: scala
 script:
   - '[ "$TRAVIS_PULL_REQUEST" != false ] || export SBT_OPTS=-Dbuild.version=${TRAVIS_TAG:-$TRAVIS_BRANCH-SNAPSHOT}'
-  - (cd sbt-cross && exec sbt '^all ^checkFormat ^package ^test')
+  - (cd sbt-cross && exec sbt checkFormat package test)
